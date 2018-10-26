@@ -1,5 +1,5 @@
 # DevTools
-A FiveM toolkit menu designed for developers.
+A FiveM standalone toolkit menu designed for developers.
 
 ![](https://i.imgur.com/QkqcTig.png)
 
