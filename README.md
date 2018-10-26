@@ -76,3 +76,10 @@ Keybinds:
 - Camera Suite
   - Create Spline Cameras
   - Debug current rendering camera
+- Multiplayer Tools
+  - Adjust Voice settings
+  - Manipulate other players
+- Teleport Tools
+  - Teleport to POIs
+  - Teleport to Waypoints
+  - Teleport to user-defined positions
