@@ -70,9 +70,9 @@ Keybinds:
 ### Planned Features
 
 - IPL Manager
- - Toggle common IPLs
- - Toggle user-defined IPLs
- - Toggle Interior Props
+  - Toggle common IPLs
+  - Toggle user-defined IPLs
+  - Toggle Interior Props
 - Camera Suite
- - Create Spline Cameras
- - Debug current rendering camera
+  - Create Spline Cameras
+  - Debug current rendering camera
