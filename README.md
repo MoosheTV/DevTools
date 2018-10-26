@@ -67,3 +67,12 @@ Keybinds:
   - Adjust the speed with `MouseWheelUp` or `MouseWheelDown`.
   - Apply a temporary multiplier to the speed with `Ctrl`, `Alt`, and `Shift`.
 
+### Planned Features
+
+- IPL Manager
+ - Toggle common IPLs
+ - Toggle user-defined IPLs
+ - Toggle Interior Props
+- Camera Suite
+ - Create Spline Cameras
+ - Debug current rendering camera
