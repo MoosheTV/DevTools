@@ -49,6 +49,7 @@ Keybinds:
   - Adjust License Plate
   - Toggle Neon Lights
   - Adjust Neon Light Color
+  - Adjust Vehicle Liveries
 - World Settings
   - Change Weather
   - Change Cloud Hat
