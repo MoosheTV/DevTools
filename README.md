@@ -1,7 +1,7 @@
 # DevTools
 A FiveM standalone toolkit menu designed for developers.
 
-![](https://i.imgur.com/QkqcTig.png)
+![](https://i.imgur.com/QTK0sfq.png)
 
 Download Latest Binaries: [Releases](https://github.com/MoosheTV/DevTools/releases)
 
@@ -33,6 +33,10 @@ Keybinds:
   - Toggle Ragdoll
   - Toggle Infinite Stamina
   - Adjust Sprint Speed
+- Multiplayer Settings
+  - Adjust Voice Proximity
+  - Adjust Voice Channel
+  - List of Online Players, with ability to bring, teleport to, and spectate
 - Time Settings
   - Freezing Time
   - Adjust time advancement speed
@@ -57,6 +61,10 @@ Keybinds:
   - Reset Timecycle
   - Adjust Timecycle strength
   - Set Timecycle
+- Interior Settings
+  - Preset Interiors
+  - Load/Unload Custom Interiors
+  - Load/Unload Custom Interior Props
 - Keycode Tester
   - When enabled, listens to keypresses and outputs the values triggered to console + screen.
 - Entity Debugger
@@ -69,16 +77,9 @@ Keybinds:
 
 ### Planned Features
 
-- IPL Manager
-  - Toggle common IPLs
-  - Toggle user-defined IPLs
-  - Toggle Interior Props
 - Camera Suite
   - Create Spline Cameras
   - Debug current rendering camera
-- Multiplayer Tools
-  - Adjust Voice settings
-  - Manipulate other players
 - Teleport Tools
   - Teleport to POIs
   - Teleport to Waypoints
