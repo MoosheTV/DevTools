@@ -13,19 +13,21 @@ namespace Devtools.Client.Menus
 		private int _index;
 		public int CurrentIndex
 		{
-			get => Math.Max( 0, Math.Min( _index, Count - 1 ) );
+			get => Math.Max( 0, Math.Min( _index, VisibleCount - 1 ) );
 			set {
 				if( value < 0 ) {
-					value = Count - 1;
+					value = VisibleCount - 1;
 				}
-				_index = Math.Max( 0, value % Count );
+				_index = Math.Max( 0, value % VisibleCount );
 
-				var item = this.ElementAt( _index );
+				var item = GetVisibleItems().ElementAt( _index );
 				item.Select.Invoke();
 			}
 		}
 
-		public MenuItem CurrentItem => this.ElementAt( CurrentIndex );
+		public int VisibleCount => GetVisibleItems().Count();
+
+		public MenuItem CurrentItem => GetVisibleItems().ElementAt( CurrentIndex );
 
 		public Menu( string title, Menu parent = null ) {
 			Title = title;
@@ -33,13 +35,10 @@ namespace Devtools.Client.Menus
 		}
 
 		public virtual void OnEnter() {
-			if( Parent == null )
-				API.PlaySoundFrontend( -1, "SELECT", "HUD_FREEMODE_SOUNDSET", false );
+
 		}
 
 		public virtual void OnExit() {
-			if( Parent == null )
-				API.PlaySoundFrontend( -1, "BACK", "HUD_FREEMODE_SOUNDSET", false );
 		}
 
 		public new bool Remove( MenuItem i ) {
@@ -61,6 +60,10 @@ namespace Devtools.Client.Menus
 		private void Refresh() {
 			Sort( ( a, b ) => b.Priority - a.Priority );
 			CurrentIndex = _index;
+		}
+
+		public IEnumerable<MenuItem> GetVisibleItems() {
+			return this.Where( i => i.IsVisible );
 		}
 	}
 

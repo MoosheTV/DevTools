@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using Devtools.Client.Helpers;
 using Devtools.Client.Menus;
 
@@ -34,6 +35,9 @@ namespace Devtools.Client.Controllers
 			var hudMenu = new MenuItemSubMenu( client, menu, new HudMenu( client, menu ), "HUD Settings" );
 			menu.Add( hudMenu );
 
+			var iplMenu = new MenuItemSubMenu( client, menu, new InteriorMenu( client, menu ), "Interior Settings" );
+			menu.Add( iplMenu );
+
 			var keyCode = new MenuItemCheckbox( client, menu, "Keycode Tester" ) {
 				IsChecked = () => KeyCodeTest
 			};
@@ -47,6 +51,13 @@ namespace Devtools.Client.Controllers
 
 			Client.RegisterTickHandler( OnKeyCodeTick );
 			Client.RegisterTickHandler( OnKeyCodeRender );
+
+			Client.RegisterEventHandler( "UI.ShowNotification", new Action<string>( OnNotification ) );
+		}
+
+		private void OnNotification( string msg ) {
+			UiHelper.ShowNotification( msg );
+			API.PlaySoundFrontend( -1, "Event_Message_Purple", "GTAO_FM_Events_Soundset", true );
 		}
 
 		private async Task OnKeyCodeRender() {

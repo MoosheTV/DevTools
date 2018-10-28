@@ -4,20 +4,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B85E4F39-B378-48E5-994C-3CD034287A59}</ProjectGuid>
+    <ProjectGuid>{A6A93AA4-0717-4AAC-A54D-AD67DDC338B7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Devtools.Client</RootNamespace>
-    <AssemblyName>Devtools.Client.net</AssemblyName>
+    <RootNamespace>Devtools.Server</RootNamespace>
+    <AssemblyName>Devtools.Server.net</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLIENT</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SERVER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -25,13 +25,13 @@
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CLIENT</DefineConstants>
+    <DefineConstants>TRACE;SERVER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CitizenFX.Core">
-      <HintPath>..\..\..\..\AppData\Local\FiveM\FiveM.app\citizen\clr2\lib\mono\4.5\CitizenFX.Core.dll</HintPath>
+      <HintPath>..\References\CitizenFX.Core.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -47,38 +47,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client.cs" />
-    <Compile Include="ClientAccessor.cs" />
-    <Compile Include="Controllers\CloudHatMenu.cs" />
-    <Compile Include="Controllers\DevTools.cs" />
-    <Compile Include="Controllers\EntityDebugger.cs" />
-    <Compile Include="Controllers\HudMenu.cs" />
-    <Compile Include="Controllers\InteriorMenu.cs" />
-    <Compile Include="Controllers\NoclipController.cs" />
-    <Compile Include="Controllers\PlayerMenu.cs" />
-    <Compile Include="Controllers\PlayerPedMenu.cs" />
-    <Compile Include="Controllers\TimeCycleMenu.cs" />
-    <Compile Include="Controllers\TimeMenu.cs" />
-    <Compile Include="Controllers\VehicleMenu.cs" />
-    <Compile Include="Controllers\WeatherMenu.cs" />
-    <Compile Include="Controllers\WorldMenu.cs" />
-    <Compile Include="Helpers\CachedValue.cs" />
-    <Compile Include="Helpers\Log.cs" />
-    <Compile Include="Helpers\ObjectHash.cs" />
-    <Compile Include="Helpers\StringExtents.cs" />
-    <Compile Include="Helpers\TimeCycle.cs" />
-    <Compile Include="Helpers\UiHelper.cs" />
-    <Compile Include="Helpers\Weather.cs" />
-    <Compile Include="Menus\MenuController.cs" />
-    <Compile Include="Menus\Menu.cs" />
-    <Compile Include="Menus\MenuItem.cs" />
-    <Compile Include="Menus\MenuItemCheckbox.cs" />
-    <Compile Include="Menus\MenuItemSpinnerList.cs" />
-    <Compile Include="Menus\MenuItemSpinner.cs" />
-    <Compile Include="Menus\MenuItemSpinnerF.cs" />
-    <Compile Include="Menus\MenuItemSpinnerInt.cs" />
-    <Compile Include="Menus\MenuItemSubMenu.cs" />
+    <Compile Include="..\Devtools.Client\Helpers\CachedValue.cs">
+      <Link>Helpers\CachedValue.cs</Link>
+    </Compile>
+    <Compile Include="..\Devtools.Client\Helpers\Log.cs">
+      <Link>Helpers\Log.cs</Link>
+    </Compile>
+    <Compile Include="..\Devtools.Client\Helpers\StringExtents.cs">
+      <Link>Helpers\StringExtents.cs</Link>
+    </Compile>
+    <Compile Include="HttpHandler.cs" />
+    <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerAccessor.cs" />
+    <Compile Include="VersionCheck.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

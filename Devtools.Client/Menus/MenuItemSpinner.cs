@@ -54,7 +54,7 @@ namespace Devtools.Client.Menus
 
 		protected override Task OnRight() {
 			API.PlaySoundFrontend( -1, "NAV_LEFT_RIGHT", "HUD_FREEMODE_SOUNDSET", false );
-			return base.OnLeft();
+			return base.OnRight();
 		}
 	}
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+#if CLIENT
 using CitizenFX.Core;
+#endif
 
 namespace Devtools.Client.Helpers
 {
@@ -7,6 +9,10 @@ namespace Devtools.Client.Helpers
 	{
 		public static void Info( string msg ) {
 			WriteLine( "INFO", msg, ConsoleColor.White );
+		}
+
+		public static void Success( string msg ) {
+			WriteLine( "SUCCESS", msg, ConsoleColor.Green );
 		}
 
 		public static void Warn( string msg ) {
@@ -30,7 +36,7 @@ namespace Devtools.Client.Helpers
 				var m = $"[{title}] {msg}";
 #if SERVER
 				Console.ForegroundColor = color;
-				Console.WriteLine( $"{DateTime.Now:G} {m}" );
+				Console.WriteLine( $"{DateTime.Now:HH:mm:ss.SSS} {m}" );
 				Console.ResetColor();
 #else
 				Debug.WriteLine( m );

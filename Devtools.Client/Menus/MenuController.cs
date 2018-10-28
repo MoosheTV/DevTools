@@ -94,9 +94,11 @@ namespace Devtools.Client.Menus
 				// Viewport
 				var idx = CurrentMenu.CurrentIndex;
 				var currentItem = CurrentMenu.CurrentItem;
+				var visibleItems = CurrentMenu.GetVisibleItems().ToList();
+				var vCount = visibleItems.Count;
 				if( _viewportMin >= idx ) {
 					_viewportMin = idx;
-					_viewportMax = Math.Min( CurrentMenu.Count - 1, idx + MaxItemsVisible );
+					_viewportMax = Math.Min( vCount - 1, idx + MaxItemsVisible );
 				}
 				if( _viewportMin <= idx - MaxItemsVisible - 1 ) {
 					_viewportMin = Math.Max( 0, idx - MaxItemsVisible );
@@ -107,7 +109,7 @@ namespace Devtools.Client.Menus
 					_viewportMin = Math.Max( 0, idx - MaxItemsVisible );
 				}
 				if( _viewportMax - _viewportMin < MaxItemsVisible || _viewportMax > idx + MaxItemsVisible - 1 ) {
-					_viewportMax = Math.Min( CurrentMenu.Count - 1, idx + MaxItemsVisible );
+					_viewportMax = Math.Min( vCount - 1, idx + MaxItemsVisible );
 				}
 
 				// Header
@@ -119,13 +121,13 @@ namespace Devtools.Client.Menus
 				// Info
 				yOffset += InfoOffsetY;
 				UiHelper.DrawRect( MenuPosX, yOffset, MenuWidth, InfoHeight, InfoColor );
-				UiHelper.DrawText( $"{idx + 1} / {CurrentMenu.Count}", new Vector2( MenuPosX - (MenuWidth / 2 - 0.002f),
+				UiHelper.DrawText( $"{idx + 1} / {vCount}", new Vector2( MenuPosX - (MenuWidth / 2 - 0.002f),
 									yOffset - InfoHeight / 2 + 0.0024f ), InfoTextColor );
 
 				// Items
 				yOffset += ItemOffsetY - 0.0002f;
 				var count = 0;
-				foreach( var item in CurrentMenu.Where( p => count >= _viewportMin & count++ <= _viewportMax ) ) {
+				foreach( var item in visibleItems.Where( p => count >= _viewportMin & count++ <= _viewportMax ) ) {
 					var isSelected = currentItem == item;
 					UiHelper.DrawRect( MenuPosX, yOffset, MenuWidth, ItemHeight, isSelected ? ActiveItemColor : ItemColor );
 
@@ -185,6 +187,7 @@ namespace Devtools.Client.Menus
 						if( !Game.IsControlJustPressed( 2, kvp.Key ) ) continue;
 
 						CurrentMenu = kvp.Value;
+						API.PlaySoundFrontend( -1, "SELECT", "HUD_FREEMODE_SOUNDSET", false );
 
 						// Wait until the player releases the key to not interfere w/ Menu action controls
 						while( true ) {
@@ -232,11 +235,13 @@ namespace Devtools.Client.Menus
 
 				switch( control ) {
 				case Control.FrontendDown:
+					API.PlaySoundFrontend( -1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", true );
 					CurrentMenu.CurrentIndex++;
 					CurrentMenu.CurrentItem.Select.Invoke();
 					break;
 
 				case Control.FrontendUp:
+					API.PlaySoundFrontend( -1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", true );
 					CurrentMenu.CurrentIndex--;
 					CurrentMenu.CurrentItem.Select.Invoke();
 					break;
@@ -250,10 +255,12 @@ namespace Devtools.Client.Menus
 					break;
 
 				case Control.FrontendCancel:
+					API.PlaySoundFrontend( -1, "BACK", "HUD_FREEMODE_SOUNDSET", false );
 					CurrentMenu = CurrentMenu.Parent;
 					break;
 
 				case Control.FrontendAccept:
+					API.PlaySoundFrontend( -1, "SELECT", "HUD_FREEMODE_SOUNDSET", false );
 					CurrentMenu.CurrentItem.Activate.Invoke();
 					break;
 				}

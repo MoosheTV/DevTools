@@ -122,6 +122,8 @@ namespace Devtools.Client.Controllers
 			};
 			Add( neonB );
 
+			Add( new MenuItemVehicleLivery( client, this ) );
+
 			client.RegisterTickHandler( OnTick );
 		}
 
@@ -169,6 +171,22 @@ namespace Devtools.Client.Controllers
 			veh.IsEngineRunning = true;
 			veh.Mods.LicensePlate = "DEVTOOLS";
 			return true;
+		}
+
+		private class MenuItemVehicleLivery : MenuItemSpinnerInt
+		{
+			protected override dynamic MaxValue => Game.PlayerPed.CurrentVehicle?.Mods.LiveryCount - 1;
+
+			public override bool IsVisible => (Game.PlayerPed.CurrentVehicle?.Mods.LiveryCount ?? 0) > 0;
+
+			public MenuItemVehicleLivery( Client client, Menu owner, int priority = -1 ) : base( client, owner, "Liveries", 0, 0, 2, 1, true, priority ) {
+				ValueUpdate += ( val ) => {
+					var v = MathUtil.Clamp( (int)val, 0, Game.PlayerPed.CurrentVehicle?.Mods.LiveryCount - 1?? 0 );
+					if( Game.PlayerPed.CurrentVehicle != null )
+						Game.PlayerPed.CurrentVehicle.Mods.Livery = v;
+					return val;
+				};
+			}
 		}
 
 		private class VehicleSpawnMenu : Menu

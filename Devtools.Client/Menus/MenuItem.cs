@@ -18,6 +18,8 @@ namespace Devtools.Client.Menus
 
 		protected Client Client { get; }
 
+		public virtual bool IsVisible { get; set; } = true;
+
 		public MenuItem( Client client, Menu owner, string label, int priority = -1 ) {
 			Client = client;
 			Menu = owner;
@@ -32,12 +34,10 @@ namespace Devtools.Client.Menus
 		}
 
 		protected virtual Task OnSelect() {
-			API.PlaySoundFrontend( -1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", true );
 			return Task.FromResult( 0 );
 		}
 
 		protected virtual Task OnActivate() {
-			API.PlaySoundFrontend( -1, "SELECT", "HUD_FREEMODE_SOUNDSET", false );
 			return Task.FromResult( 0 );
 		}
 

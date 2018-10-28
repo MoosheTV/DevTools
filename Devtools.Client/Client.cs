@@ -15,11 +15,24 @@ namespace Devtools.Client
 		public NoclipController NoClip { get; }
 		public EntityDebugger Debugger { get; }
 
+		private bool _isInstantiated;
+
 		public Client() {
 			Menu = new MenuController( this );
 			Tools = new DevTools( this );
 			NoClip = new NoclipController( this );
 			Debugger = new EntityDebugger( this );
+
+			RegisterEventHandler( "playerSpawned", new Action( OnSpawn ) );
+
+			if( Game.PlayerPed.Position != default( Vector3 ) )
+				OnSpawn();
+		}
+
+		private void OnSpawn() {
+			if( !_isInstantiated )
+				TriggerServerEvent( "Client.Ready" );
+			_isInstantiated = true;
 		}
 
 		public void RegisterEventHandler( string eventName, Delegate action ) {
