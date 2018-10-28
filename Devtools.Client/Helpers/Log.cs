@@ -36,7 +36,7 @@ namespace Devtools.Client.Helpers
 				var m = $"[{title}] {msg}";
 #if SERVER
 				Console.ForegroundColor = color;
-				Console.WriteLine( $"{DateTime.Now:HH:mm:ss.SSS} {m}" );
+				Console.WriteLine( $"{DateTime.Now:HH:mm:ss.fff} {m}" );
 				Console.ResetColor();
 #else
 				Debug.WriteLine( m );

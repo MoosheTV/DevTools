@@ -10,12 +10,14 @@ namespace Devtools.Server
 	public class Server : BaseScript
 	{
 		public HttpHandler Http { get; }
+		public PlayerController PlayerManager { get; }
 
 		public Server() {
 			Log.Info( "Instantiating DevTools" );
 			Http = new HttpHandler( this );
 			new VersionCheck( this );
-			Log.Success( "Instantiated DevTools" );
+			PlayerManager = new PlayerController( this );
+			Log.Success( "Successfully Instantiated DevTools" );
 		}
 
 		public void RegisterEventHandler( string eventName, Delegate action ) {

@@ -54,6 +54,7 @@
     <Compile Include="Controllers\EntityDebugger.cs" />
     <Compile Include="Controllers\HudMenu.cs" />
     <Compile Include="Controllers\InteriorMenu.cs" />
+    <Compile Include="Controllers\MpMenu.cs" />
     <Compile Include="Controllers\NoclipController.cs" />
     <Compile Include="Controllers\PlayerMenu.cs" />
     <Compile Include="Controllers\PlayerPedMenu.cs" />

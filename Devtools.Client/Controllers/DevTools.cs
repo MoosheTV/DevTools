@@ -17,11 +17,17 @@ namespace Devtools.Client.Controllers
 		private DateTime _lastCollection = DateTime.UtcNow;
 		private readonly List<KeyCodeEvent> _keyEvents = new List<KeyCodeEvent>();
 
+		private Player _currentSpectate = null;
+		private Vector3 _lastSpectatePos = Vector3.Zero;
+
 		public DevTools( Client client ) : base( client ) {
 			var menu = new Menu( "Mooshe's DevTools" );
 
 			var playerMenu = new MenuItemSubMenu( client, menu, new PlayerMenu( client, menu ), "Player Settings" );
 			menu.Add( playerMenu );
+
+			var mpMenu = new MenuItemSubMenu( client, menu, new MpMenu( client, menu ), "Multiplayer Settings" );
+			menu.Add( mpMenu );
 
 			var timeMenu = new MenuItemSubMenu( client, menu, new TimeMenu( client, menu ), "Time Settings" );
 			menu.Add( timeMenu );
@@ -53,6 +59,48 @@ namespace Devtools.Client.Controllers
 			Client.RegisterTickHandler( OnKeyCodeRender );
 
 			Client.RegisterEventHandler( "UI.ShowNotification", new Action<string>( OnNotification ) );
+			Client.RegisterEventHandler( "Player.Bring", new Action<int, float, float, float>( OnPlayerBring ) );
+		}
+
+		private void OnPlayerBring( int serverId, float x, float y, float z ) {
+			try {
+				var target = new PlayerList().FirstOrDefault( p => p.ServerId == serverId );
+				if( target != null ) {
+					Game.PlayerPed.PositionNoOffset = new Vector3( x, y, z );
+					UiHelper.ShowNotification( $"You were brought by ~g~{target.Name}~s~." );
+				}
+			}
+			catch( Exception ex ) {
+				Log.Error( ex );
+			}
+		}
+
+		public async Task Spectate( Player player ) {
+			API.DoScreenFadeOut( 200 );
+			await BaseScript.Delay( 200 );
+			if( _currentSpectate != null && _currentSpectate == player ) {
+				Function.Call( Hash.NETWORK_SET_IN_SPECTATOR_MODE, false, player.Character );
+				Game.PlayerPed.Detach();
+				Game.PlayerPed.PositionNoOffset = _lastSpectatePos;
+
+				_lastSpectatePos = Vector3.Zero;
+				_currentSpectate = null;
+
+				API.DoScreenFadeOut( 200 );
+				await BaseScript.Delay( 50 );
+				return;
+			}
+			Function.Call( Hash.NETWORK_SET_IN_SPECTATOR_MODE, false, player.Character );
+
+			_currentSpectate = player;
+			if( _lastSpectatePos == Vector3.Zero )
+				_lastSpectatePos = Game.PlayerPed.Position;
+
+			Game.PlayerPed.Position = player.Character.Position + new Vector3( 0f, 0f, -5f );
+			Game.PlayerPed.AttachTo( player.Character, new Vector3( 0f, 0f, -5f ), Vector3.Zero );
+
+			API.DoScreenFadeIn( 200 );
+			await BaseScript.Delay( 50 );
 		}
 
 		private void OnNotification( string msg ) {

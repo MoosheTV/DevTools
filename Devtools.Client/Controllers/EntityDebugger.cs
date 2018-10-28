@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
@@ -15,9 +16,11 @@ namespace Devtools.Client.Controllers
 
 		private static readonly Vector2 DefaultPos = new Vector2( 0.6f, 0.5f );
 
+		private static readonly PlayerList Players = new PlayerList();
+
 		public bool IsEnabled { get; set; }
 
-		private Entity _hoveredEntity;
+		public Entity _trackingEntity;
 		private bool _track;
 
 		public EntityDebugger( Client client ) : base( client ) {
@@ -34,7 +37,17 @@ namespace Devtools.Client.Controllers
 				list["Model Hash"] = $"{entity.Model.Hash}";
 				list["Model Hash (Hex)"] = $"0x{entity.Model.Hash:X}";
 				list[""] = "";
-				if( entity is Vehicle veh ) {
+
+				var player = Players.FirstOrDefault( p => p.Character == entity );
+				if( player != null ) {
+					list["Player Name"] = player.Name;
+					list["Server ID"] = $"{player.ServerId}";
+					list["Is Talking"] = $"{(Function.Call<bool>( Hash.NETWORK_IS_PLAYER_TALKING, player ) ? "~g~True" : "~r~False")}~s~";
+					list["  "] = "";
+					list["Health"] = $"{player.Character.Health} / {player.Character.MaxHealth}";
+					list["Invincible"] = $"{(player.IsInvincible ? "~g~True" : "~r~False")}~s~";
+				}
+				else if( entity is Vehicle veh ) {
 					list["Engine Health"] = $"{veh.EngineHealth:n1} / 1,000.0";
 					list["Body Health"] = $"{veh.BodyHealth:n1} / 1,000.0";
 					list["Speed"] = $"{veh.Speed / 0.621371f:n3} MP/H";
@@ -72,35 +85,35 @@ namespace Devtools.Client.Controllers
 				var rightClick = Game.IsControlPressed( 2, Control.Aim );
 
 				if( rightClick ) {
-					_hoveredEntity = GetEntityInCrosshair();
-					if( _hoveredEntity == null )
+					_trackingEntity = GetEntityInCrosshair();
+					if( _trackingEntity == null )
 						_track = false;
 				}
 
-				if( _hoveredEntity == null && !_track ) {
-					_hoveredEntity = GetEntityInCrosshair();
+				if( _trackingEntity == null && !_track ) {
+					_trackingEntity = GetEntityInCrosshair();
 				}
 
 
 				var color = DefaultCrosshair;
-				if( _hoveredEntity != null ) {
+				if( _trackingEntity != null ) {
 					color = ActiveCrosshair;
 				}
 
 				UiHelper.DrawCrosshair( color );
 
-				if( _hoveredEntity != null ) {
+				if( _trackingEntity != null ) {
 					if( rightClick ) {
 						_track = true;
 					}
 					var playerPos = Game.PlayerPed.Position;
-					if( !_hoveredEntity.Exists() || playerPos.DistanceToSquared( _hoveredEntity.Position ) > 1000f ) {
+					if( !_trackingEntity.Exists() || playerPos.DistanceToSquared( _trackingEntity.Position ) > 1000f ) {
 						_track = false;
-						_hoveredEntity = null;
+						_trackingEntity = null;
 						return;
 					}
 
-					DrawData( _hoveredEntity );
+					DrawData( _trackingEntity );
 				}
 			}
 			catch( Exception ex ) {

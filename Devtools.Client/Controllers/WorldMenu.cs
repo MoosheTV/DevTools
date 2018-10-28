@@ -55,23 +55,6 @@ namespace Devtools.Client.Controllers
 			}
 		}
 
-		private bool _allowCops = true;
-		/// <summary>
-		/// Whether or not cops/military can spawn and interact with the player.
-		/// </summary>
-		public bool SpawnCops
-		{
-			get => _allowCops;
-			set {
-				_allowCops = value;
-				Function.Call( Hash.SET_CREATE_RANDOM_COPS, value );
-				Function.Call( Hash.SET_CREATE_RANDOM_COPS_NOT_ON_SCENARIOS, value );
-				Function.Call( Hash.SET_CREATE_RANDOM_COPS_ON_SCENARIOS, value );
-				Function.Call( Hash.SET_DISPATCH_COPS_FOR_PLAYER, value );
-				Function.Call( Hash.SET_POLICE_IGNORE_PLAYER, !value );
-			}
-		}
-
 		public float VehicleDensity { get; set; } = 1f;
 		public float PedDensity { get; set; } = 1f;
 

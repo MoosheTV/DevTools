@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CitizenFX.Core.Native;
 
 namespace Devtools.Client.Menus
 {
@@ -10,7 +9,7 @@ namespace Devtools.Client.Menus
 
 		internal Func<Task> Select, Activate, Left, Right;
 
-		protected Menu Menu { get; }
+		public Menu Menu { get; }
 
 		public int Priority { get; }
 
